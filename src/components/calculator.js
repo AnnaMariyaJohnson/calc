@@ -80,7 +80,7 @@ const Calculator = () => {
       // Perform the calculation through the backend API
       const result = await calculateOperation(backendOperation, first_number, second_number);
       setDisplay(result.toString());
-      loadHistory(); // Refresh the history after calculation
+      loadHistory(); // Refresh the history after
     } catch (err) {
       setError('Calculation Error');
       console.error('Calculation Error:', err);
