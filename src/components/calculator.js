@@ -50,37 +50,16 @@ const Calculator = () => {
 
   const handleEquals = async () => {
     try {
-      // Split the display input into numbers and operation
-      const [first_number, operation, second_number] = display.split(/([+\-*/])/);
-      if (!first_number || !operation || !second_number) {
+      // Send the entire expression
+      if (!display) {
         setError('Invalid Expression');
         return;
       }
 
-      let backendOperation;
-      // Map the operation to backend's expected operation names
-      switch (operation) {
-        case '+':
-          backendOperation = 'add';
-          break;
-        case '-':
-          backendOperation = 'subtract';
-          break;
-        case '*':
-          backendOperation = 'multiply';
-          break;
-        case '/':
-          backendOperation = 'divide';
-          break;
-        default:
-          setError('Invalid Operation');
-          return;
-      }
-
       // Perform the calculation through the backend API
-      const result = await calculateOperation(backendOperation, first_number, second_number);
+      const result = await calculateOperation(display);
       setDisplay(result.toString());
-      loadHistory(); // Refresh the history after
+      loadHistory(); // Refresh the history after calculation
     } catch (err) {
       setError('Calculation Error');
       console.error('Calculation Error:', err);
@@ -99,14 +78,8 @@ const Calculator = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* Display */}
-      <View style={styles.displayContainer}>
-        <Text style={styles.display}>{display || '0'}</Text>
-        {error ? <Text style={styles.errorText}>{error}</Text> : null}
-      </View>
-
-      {/* Toggle History */}
-      <View style={styles.historyToggle}>
+     {/* Toggle History */}
+     <View style={styles.historyToggle}>
         <TouchableOpacity onPress={() => setShowHistory((prev) => !prev)}>
           <MaterialIcons
             name={showHistory ? 'history-toggle-off' : 'history'}
@@ -115,6 +88,13 @@ const Calculator = () => {
           />
         </TouchableOpacity>
       </View>
+      {/* Display */}
+      <View style={styles.displayContainer}>
+        <Text style={styles.display}>{display || '0'}</Text>
+        {error ? <Text style={styles.errorText}>{error}</Text> : null}
+      </View>
+
+     
 
       {/* History Section */}
       {showHistory && (
@@ -124,7 +104,7 @@ const Calculator = () => {
             keyExtractor={(item, index) => index.toString()}
             renderItem={({ item }) => (
               <Text style={styles.historyItem}>
-                {item.first_number} {item.operation  === 'add' ? '+' : item.operation === 'subtract' ? '-' : item.operation === 'multiply' ? '*' : '/'} {item.second_number} = {item.result}
+                {item.expression} = {item.result}
               </Text>
             )}
           />
@@ -226,16 +206,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#000',
     width: 70,
     height: 70,
-    borderRadius: 35,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  equalsButton: {
-    backgroundColor: '#ff9900', // Orange for "=" button
+    borderRadius: 35,
   },
   buttonText: {
-    color: '#fff',
     fontSize: 24,
+    color: '#fff',
+  },
+  equalsButton: {
+    backgroundColor: '#f39c12', // Different color for '=' button
   },
 });
 
