@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Base URL for your backend API
-const BASE_URL = 'http://192.168.137.121:3001'; // Update this with your backend URL if needed
+const BASE_URL = 'http://192.168.137.2:3001'; // Update this with your backend URL if needed
 
 // Function to send the expression to the backend and get the result
 export const calculateOperation = async (expression) => {

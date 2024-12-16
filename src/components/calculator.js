@@ -78,8 +78,15 @@ const Calculator = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-     {/* Toggle History */}
-     <View style={styles.historyToggle}>
+     
+      {/* Display */}
+      <View style={styles.displayContainer}>
+        <Text style={styles.display}>{display || '0'}</Text>
+        {error ? <Text style={styles.errorText}>{error}</Text> : null}
+      </View>
+
+       {/* Toggle History */}
+       <View style={styles.historyToggle}>
         <TouchableOpacity onPress={() => setShowHistory((prev) => !prev)}>
           <MaterialIcons
             name={showHistory ? 'history-toggle-off' : 'history'}
@@ -88,13 +95,7 @@ const Calculator = () => {
           />
         </TouchableOpacity>
       </View>
-      {/* Display */}
-      <View style={styles.displayContainer}>
-        <Text style={styles.display}>{display || '0'}</Text>
-        {error ? <Text style={styles.errorText}>{error}</Text> : null}
-      </View>
-
-     
+      
 
       {/* History Section */}
       {showHistory && (
@@ -169,6 +170,7 @@ const styles = StyleSheet.create({
   historyToggle: {
     alignItems: 'flex-end',
     marginRight: 10,
+    
   },
   historyContainer: {
     flex: 2,
@@ -219,4 +221,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Calculator;
+export default Calculator
